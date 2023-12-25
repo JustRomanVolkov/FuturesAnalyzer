@@ -4,7 +4,6 @@ import asyncio
 import pandas as pd
 import json
 
-
 from config import API_INTERVALS, BINANCE_FUTURES_API_URL, BINANCE_FUTURES_API_ENDPOINT
 from utils.data_utils import convert_to_dict_financial_data
 

@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     """Расчет RSI"""
     # Получение исторических данных для расчета RSI
-    historical_data = asyncio.run(get_previous_data(symbol, clear_time, interval='1m', period=14))
+    historical_data = asyncio.run(get_previous_data(symbol, clear_time, interval='1m', period=15))
 
     # Извлечение списка цен закрытия для расчета RSI
     close_prices_list = get_previous_close_price_for_rsi(historical_data)
