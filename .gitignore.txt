@@ -1,0 +1,45 @@
+# Игнорировать файлы, созданные операционной системой
+.DS_Store
+
+# Игнорировать виртуальное окружение Python (в зависимости от названия)
+/venv/
+/venv library root/
+/env/
+/.venv/
+/.venv3/
+
+# Игнорировать файлы, созданные IDE и редакторами кода
+/.idea/
+/.vscode/
+*.py[cod]
+
+# Игнорировать логи и временные файлы
+/logs/
+*.log
+*.log.*
+*.tmp
+*.swp
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+/dist/
+/build/
+/eggs/
+/parts/
+/bin/
+/var/
+/sdist/
+/develop-eggs/
+/.installed.cfg/
+/lib/
+/lib64/
+/__pycache__/
+
+# Installer logs
+pip-log.txt
+
+/algo.log*
