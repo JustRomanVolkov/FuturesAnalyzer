@@ -12,42 +12,38 @@ from visualization.plot_utils import visualize_entry_point
 
 
 if __name__ == "__main__":
+    """Исходные данные"""
+    symbol = 'ARUSDT'  # Тикер
+    alert_price = 'alert price: 8.006'  # Цена сигнала
+    start_time = '2023-11-09 18:23:54.181000'  # Стартовое время сигнала
 
-    # 12,ARUSDT,💥💥💥,1 kline,alert price: 8.006,2023-11-09 18:23:54.181000
-    # 75,CELRUSDT,🌊🌊🌊,2 kline,alert price: 0.01566,2023-11-09 20:13:00.304000
-
-    symbol = 'CELRUSDT'
-    alert_price = 'alert price: 0.01455'
-    start_time = '2023-11-09 20:13:00.304000'
-
+    """Подготовка исходных данных"""
+    # Извлечение числового значения цены из строки
     clear_price = extract_price(alert_price)
+    # Конвертация локального времени в миллисекунды UTC
     clear_time = convert_time_to_utc_millis(start_time)
 
-    print(f"{symbol} {clear_price}: {clear_time}")
+    """Расчет RSI"""
+    # Получение исторических данных для расчета RSI
+    historical_data = asyncio.run(get_previous_data(symbol, clear_time, interval='1m', period=14))
 
-    historical_data = asyncio.run(get_previous_data(symbol, clear_time, interval='1m', period=14, api_intervals=API_INTERVALS))
-    print(historical_data)
-
+    # Извлечение списка цен закрытия для расчета RSI
     close_prices_list = get_previous_close_price_for_rsi(historical_data)
-    print(close_prices_list)
+
+    # Расчет RSI и вывод его значений
     rsi = calculate_rsi(close_prices_list, period=14)
     print(json.loads(rsi))
 
-
-    result = asyncio.run(get_signal_performance_data(symbol, clear_price, clear_time, interval='3m', n_intervals=7,
-                                          deviation_threshold=4, check_rise=False))
-    # Десериализация строки JSON обратно в словарь
+    """ Получение данных об эффективности сигнала """
+    result = asyncio.run(get_signal_performance_data(
+        symbol, clear_price, clear_time, interval='1m', n_intervals=7,
+        deviation_threshold=4, check_rise=False
+    ))
+    # Десериализация строки JSON в словарь для дальнейшего анализа
     result_dict = json.loads(result)
     print(result_dict)
 
+    """визуализация данных - свечной график с указанием цены сигнала"""
     price_data = result_dict["data"]
+    # Визуализация точки входа на основе полученных данных
     visualize_entry_point(symbol, price_data, clear_price)
-
-
-
-
-
-
-
-
-
